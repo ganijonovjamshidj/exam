@@ -13,15 +13,15 @@ export const getUserById = asyncWrapper(async (req, res) => {
 
 export const createUser = asyncWrapper(async (req, res) => {
   const user = await userService.createUser(req.body);
-  res.status(201).json({ userId: user.id, message: 'User created' });
+  res.status(201).json({ userId: user.id, message: 'Foydalanuvchi yaratildi' });
 });
 
 export const updateUser = asyncWrapper(async (req, res) => {
   const user = await userService.updateUser(req.params.id, req.body);
-  res.json({ userId: user.id, message: 'User updated' });
+  res.json({ userId: user.id, message: 'Foydalanuvchi yangilandi' });
 });
 
 export const deleteUser = asyncWrapper(async (req, res) => {
   await userService.deleteUser(req.params.id);
-  res.json({ message: 'User deleted' });
+  res.json({ message: 'Foydalanuvchi ochirildi' });
 });

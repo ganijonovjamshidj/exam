@@ -1,6 +1,5 @@
 import Joi from 'joi';
 
-// Signup Validation
 export const signupValidation = (data) => {
   const schema = Joi.object({
     email: Joi.string().email().required(),
@@ -17,7 +16,6 @@ export const signupValidation = (data) => {
   return schema.validate(data);
 };
 
-// Signin Validation
 export const signinValidation = (data) => {
   const schema = Joi.object({
     email: Joi.string().email().required(),
@@ -27,7 +25,6 @@ export const signinValidation = (data) => {
   return schema.validate(data);
 };
 
-// OTP Verification
 export const verifyOtpValidation = (data) => {
   const schema = Joi.object({
     userId: Joi.string().uuid().required(),

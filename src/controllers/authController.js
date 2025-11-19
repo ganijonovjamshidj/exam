@@ -4,6 +4,7 @@ import { sendEmail } from '../services/notificationService.js';
 import asyncWrapper from '../utils/asyncWrapper.js';
 import { signupValidation, signinValidation, verifyOtpValidation } from '../validations/authValidation.js';
 
+
 export const signup = asyncWrapper(async (req, res) => {
   const { error } = signupValidation(req.body);
   if (error) return res.status(400).json({ message: error.details[0].message });
@@ -11,9 +12,9 @@ export const signup = asyncWrapper(async (req, res) => {
   const user = await authService.registerUser(req.body);
   const otp = otpService.generateOTP(user.id);
 
-  await sendEmail(user.email, 'Your OTP', `Your OTP is ${otp}`);
+  await sendEmail(user.email, 'Sizning OTP', `OTP =  ${otp}`);
 
-  res.status(201).json({ message: 'User created', userId: user.id, otpSent: true });
+  res.status(201).json({ message: 'Foydalanuvchi yaratildi', userId: user.id, otpSent: true });
 });
 
 export const verifyOtp = asyncWrapper(async (req, res) => {
@@ -22,10 +23,10 @@ export const verifyOtp = asyncWrapper(async (req, res) => {
 
   const { userId, otp } = req.body;
   const verified = otpService.verifyOTP(userId, otp);
-  if (!verified) return res.status(400).json({ message: 'Invalid OTP' });
+  if (!verified) return res.status(400).json({ message: 'Nomalum OTP' });
 
   await authService.verifyUser(userId);
-  res.json({ message: 'OTP verified, account activated' });
+  res.json({ message: 'OTP yaratildi' });
 });
 
 export const signin = asyncWrapper(async (req, res) => {
@@ -44,8 +45,7 @@ export const getMe = asyncWrapper(async (req, res) => {
 });
 
 export const logout = asyncWrapper(async (req, res) => {
-  // Frontend tokenni o‘chiradi, backend uchun faqat response
-  res.json({ message: 'Logout successful' });
+  res.json({ message: 'Chiqish muvaffaqiyatli' });
 });
 
 export const refreshToken = asyncWrapper(async (req, res) => {

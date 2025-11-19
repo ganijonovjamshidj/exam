@@ -7,7 +7,7 @@ export const createAuthor = asyncWrapper(async (req, res) => {
   if (error) return res.status(400).json({ message: error.details[0].message });
 
   const author = await authorService.createAuthor(req.body);
-  res.status(201).json({ authorId: author.id, message: 'Author created' });
+  res.status(201).json({ authorId: author.id, message: 'Aftor yaratildi' });
 });
 
 export const getAllAuthors = asyncWrapper(async (req, res) => {
@@ -22,10 +22,10 @@ export const getAuthorById = asyncWrapper(async (req, res) => {
 
 export const updateAuthor = asyncWrapper(async (req, res) => {
   const author = await authorService.updateAuthor(req.params.id, req.body);
-  res.json({ authorId: author.id, message: 'Author updated' });
+  res.json({ authorId: author.id, message: 'Aftor yangilandi' });
 });
 
 export const deleteAuthor = asyncWrapper(async (req, res) => {
   await authorService.deleteAuthor(req.params.id);
-  res.json({ message: 'Author deleted' });
+  res.json({ message: 'Aftor ochirildi' });
 });

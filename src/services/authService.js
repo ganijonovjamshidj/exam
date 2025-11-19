@@ -34,3 +34,22 @@ export const getCurrentUser = async (userId) => {
   if (!user) throw new Error('User not found');
   return user;
 };
+
+export const refreshUserToken = async (refreshToken) => {
+  try {
+    const decoded = jwt.verify(refreshToken, jwtConfig.refreshTokenSecret);
+
+    const user = await userModel.getUserById(decoded.id);
+    if (!user) throw new Error('User not found');
+
+    const newAccessToken = jwt.sign(
+      { id: user.id, role: user.role },
+      jwtConfig.accessTokenSecret,
+      { expiresIn: jwtConfig.accessTokenExpiry }
+    );
+
+    return { accessToken: newAccessToken };
+  } catch (err) {
+    throw new Error('Invalid refresh token');
+  }
+};

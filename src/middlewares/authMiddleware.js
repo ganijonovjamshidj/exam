@@ -7,7 +7,7 @@ dotenv.config();
 const authMiddleware = async (req, res, next) => {
   const authHeader = req.headers['authorization'];
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ message: 'No token provided' });
+    return res.status(401).json({ message: 'Token nomalum' });
   }
 
   const token = authHeader.split(' ')[1];
@@ -21,13 +21,13 @@ const authMiddleware = async (req, res, next) => {
     );
 
     if (userResult.rows.length === 0) {
-      return res.status(401).json({ message: 'User not found' });
+      return res.status(401).json({ message: 'Foyddalanuvchi yoq' });
     }
 
     req.user = userResult.rows[0];
     next();
   } catch (err) {
-    return res.status(401).json({ message: 'Invalid token' });
+    return res.status(401).json({ message: 'Token yaroqsiz' });
   }
 };
 

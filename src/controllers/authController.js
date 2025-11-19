@@ -4,6 +4,11 @@ import { sendEmail } from '../services/notificationService.js';
 import asyncWrapper from '../utils/asyncWrapper.js';
 import { signupValidation, signinValidation, verifyOtpValidation } from '../validations/authValidation.js';
 
+export const getAllUsers = asyncWrapper(async (req, res) => {
+  const users = await authService.getAllUsersService();
+  res.json({ users });
+});
+
 
 export const signup = asyncWrapper(async (req, res) => {
   const { error } = signupValidation(req.body);

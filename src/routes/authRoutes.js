@@ -12,5 +12,6 @@ router.post('/signin', validate(signinValidation), authController.signin);
 router.get('/me', authMiddleware, authController.getMe);
 router.get('/logout', authMiddleware, authController.logout);
 router.post('/refresh-token', authController.refreshToken);
+router.get('/users', authMiddleware, authController.getAllUsers);
 
 export default router;

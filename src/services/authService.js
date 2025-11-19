@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { userModel } from '../models/index.js';
 import jwtConfig from '../config/jwtConfig.js';
+import * as userModel from '../models/userModel.js';
 
 export const registerUser = async (userData) => {
   const existingUser = await userModel.getUserByEmail(userData.email);
@@ -11,17 +12,19 @@ export const registerUser = async (userData) => {
   return newUser;
 };
 
+
 export const loginUser = async (email, password) => {
-  const user = await userModel.getUserByEmail(email);
+  const user = await getUserByEmail(email);
   if (!user) throw new Error('User not found');
 
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) throw new Error('Incorrect password');
 
-  const accessToken = jwt.sign({ id: user.id, role: user.role }, jwtConfig.accessTokenSecret, { expiresIn: jwtConfig.accessTokenExpiry });
-  const refreshToken = jwt.sign({ id: user.id }, jwtConfig.refreshTokenSecret, { expiresIn: jwtConfig.refreshTokenExpiry });
+  // JWT token yaratish
+  const payload = { id: user.id, email: user.email, role: user.role };
+  const accessToken = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-  return { accessToken, refreshToken };
+  return { accessToken, user };
 };
 
 export const verifyUser = async (userId) => {
@@ -29,11 +32,12 @@ export const verifyUser = async (userId) => {
   return user;
 };
 
-export const getCurrentUser = async (userId) => {
-  const user = await userModel.getUserById(userId);
-  if (!user) throw new Error('User not found');
-  return user;
+
+export const getAllUsersService = async () => {
+  const users = await userModel.getAllUsers();
+  return users;
 };
+
 
 export const refreshUserToken = async (refreshToken) => {
   try {

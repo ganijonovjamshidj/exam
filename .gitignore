@@ -1,0 +1,36 @@
+# OS fayllari
+.DS_Store
+Thumbs.db
+
+# Node.js (agar ishlatilsa)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Python (agar ishlatilsa)
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+env/
+venv/
+*.sqlite3
+
+# Build papkalar
+build/
+dist/
+out/
+
+# IDE fayllari
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Log fayllar
+*.log
+
+# Maxfiy fayllar
+*.env
+*.key
+*.pem
